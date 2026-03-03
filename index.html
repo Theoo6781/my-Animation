@@ -1,48 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <title>Theo Alexander Website</title>
+    <title>Cyber UI Animation</title>
+
     <style>
         body {
-            background-color: #0f172a;
-            font-family: Arial, sans-serif;
-            color: white;
-            text-align: center;
-            padding-top: 100px;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #0f172a;
+            font-family: monospace;
+            color: #00ffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        h1 {
+        /* GRID BACKGROUND */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background:
+                linear-gradient(#00ffff22 1px, transparent 1px),
+                linear-gradient(90deg, #00ffff22 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 10s linear infinite;
+        }
+
+        @keyframes gridMove {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(-50px, -50px);
+            }
+        }
+
+        /* SCAN LINE */
+        .scan {
+            position: absolute;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, transparent, #00ffff, transparent);
+            animation: scanMove 3s linear infinite;
+        }
+
+        @keyframes scanMove {
+            0% {
+                top: 0%;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        /* GLITCH TEXT */
+        .glitch {
+            position: relative;
             font-size: 40px;
-            color: #38bdf8;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            animation: flicker 2s infinite alternate;
         }
 
-        p {
-            font-size: 20px;
-            color: #cbd5e1;
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
         }
 
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #38bdf8;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        .glitch::before {
+            color: #ff00ff;
+            animation: glitch1 0.5s infinite;
         }
 
-        button:hover {
-            background-color: #0ea5e9;
+        .glitch::after {
+            color: #00ff00;
+            animation: glitch2 0.5s infinite;
+        }
+
+        @keyframes glitch1 {
+            0% {
+                transform: translate(2px, 0);
+            }
+
+            50% {
+                transform: translate(-2px, 0);
+            }
+
+            100% {
+                transform: translate(2px, 0);
+            }
+        }
+
+        @keyframes glitch2 {
+            0% {
+                transform: translate(-2px, 0);
+            }
+
+            50% {
+                transform: translate(2px, 0);
+            }
+
+            100% {
+                transform: translate(-2px, 0);
+            }
+        }
+
+        @keyframes flicker {
+            from {
+                opacity: 0.8;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* FLOATING PARTICLES */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00ffff;
+            animation: floatUp 5s linear infinite;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(100vh);
+            }
+
+            to {
+                transform: translateY(-10vh);
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Welcome Theo Alexander 😎</h1>
-    <p>This is my first VS Code project!</p>
-    <button onclick="alert('No Striker No Problem 😎🔥')">Click Me</button>
+    <div class="scan"></div>
+
+    <h1 class="glitch" data-text="SYSTEM ONLINE">
+        SYSTEM ONLINE
+    </h1>
+
+    <script>
+        // Create digital particles
+        for (let i = 0; i < 50; i++) {
+            let p = document.createElement("div");
+            p.className = "particle";
+            p.style.left = Math.random() * 100 + "vw";
+            p.style.animationDuration = (3 + Math.random() * 5) + "s";
+            document.body.appendChild(p);
+        }
+    </script>
 
 </body>
 
